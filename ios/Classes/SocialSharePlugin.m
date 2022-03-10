@@ -196,8 +196,12 @@
             } else {
                 //check if it contains a link
                 if ( [ [url absoluteString]  length] == 0 ) {
+                    
                     NSString *urlSchemeTwitter = [NSString stringWithFormat:@"twitter://post?message=%@",captionText];
-                    NSURL *urlSchemeSend = [NSURL URLWithString:urlSchemeTwitter];
+                    
+                    NSString* urlTextEscaped = [urlSchemeTwitter stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+                    NSURL *urlSchemeSend = [NSURL URLWithString:urlTextEscaped];
+
                     if (@available(iOS 10.0, *)) {
                         [[UIApplication sharedApplication] openURL:urlSchemeSend options:@{} completionHandler:nil];
                         result(@"sharing");
@@ -212,8 +216,12 @@
                         //appending url with normal text and url scheme
                         NSString *urlWithLink = [urlSchemeSms stringByAppendingString:[url absoluteString]];
 
+
+                        NSString* urlTextEscaped = [urlWithLink stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+                       
+                        
                         //final urlscheme
-                        NSURL *urlSchemeMsg = [NSURL URLWithString:urlWithLink];
+                        NSURL *urlSchemeMsg = [NSURL URLWithString:urlTextEscaped];
                         if (@available(iOS 10.0, *)) {
                             [[UIApplication sharedApplication] openURL:urlSchemeMsg options:@{} completionHandler:nil];
                             result(@"sharing");
@@ -226,11 +234,15 @@
                         //appending url with normal text and url scheme
                         NSString *urlWithLink = [urlSchemeSms stringByAppendingString:[url absoluteString]];
                         NSString *finalurl = [urlWithLink stringByAppendingString:trailingText];
+                       
+                        NSString* urlTextEscaped = [finalurl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+                       
+                      
                         //final urlscheme
-                        NSURL *urlSchemeMsg = [NSURL URLWithString:finalurl];
+                        NSURL *urlSchemeMsg = [NSURL URLWithString:urlTextEscaped];
                         if (@available(iOS 10.0, *)) {
                             [[UIApplication sharedApplication] openURL:urlSchemeMsg options:@{} completionHandler:nil];
-                            result(@"sharing Clever");
+                            result(@"sharing");
                         } else {
                             result(@"this only supports iOS 10+");
                         }
