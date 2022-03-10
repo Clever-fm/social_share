@@ -153,10 +153,10 @@ class _MyAppState extends State<MyApp> {
                 RaisedButton(
                   onPressed: () async {
                     SocialShare.shareTwitter(
-                      "This is Social Share twitter example",
-                      hashTags: ["hello", "world", "foo", "bar"],
-                      url: "https://google.com/#/hello",
-                      trailingText: "\nhello",
+                      "Twitter share",
+                      // hashTags: ["hello", "world", "foo", "bar"],
+                      // url: "https://google.com/#/hello",
+                      // trailingText: "\nhello",
                     ).then((data) {
                       print(data);
                     });
