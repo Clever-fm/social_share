@@ -192,8 +192,8 @@ class SocialSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             intent.putExtra("sms_body", content)
             if (image != null && image.length > 0) {
                 //check if  image is also provided
-                val imagefile =  File(registrar.activeContext().cacheDir,image)
-                val imageFileUri = FileProvider.getUriForFile(registrar.activeContext(), registrar.activeContext().applicationContext.packageName + ".com.shekarmudaliyar.social_share", imagefile)
+                val imagefile =  File(activity!!.cacheDir,image)
+                val imageFileUri = FileProvider.getUriForFile(activity!!, activity!!.applicationContext.packageName + ".com.shekarmudaliyar.social_share", imagefile)
                 intent.type = "image/*"
                 intent.putExtra(Intent.EXTRA_STREAM,imageFileUri)
             } else {
@@ -214,13 +214,13 @@ class SocialSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             val image: String? = call.argument("image")
             val text = "$captionText $trailingText $url".trim()
 
-            val builder = TweetComposer.Builder(registrar.activity()).text(text)
+            val builder = TweetComposer.Builder(activity!!).text(text)
             if (url != null && url.length > 0) {
                 builder.url(URL(url))
             }
             if (image != null && image.length > 0) {
-                val file =  File(registrar.activeContext().cacheDir,image)
-                val stickerImageFile = FileProvider.getUriForFile(registrar.activeContext(), registrar.activeContext().applicationContext.packageName + ".com.shekarmudaliyar.social_share", file)
+                val file =  File(activity!!.cacheDir,image)
+                val stickerImageFile = FileProvider.getUriForFile(activity!!, activity!!.applicationContext.packageName + ".com.shekarmudaliyar.social_share", file)
                 builder.image(stickerImageFile)
             }
             try {
@@ -277,7 +277,7 @@ class SocialSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private fun hasPackage(type: String): Boolean {
         val share = Intent(Intent.ACTION_SEND)
         share.type = "text/plain"
-        val resInfo: List<ResolveInfo> = registrar.activity()
+        val resInfo: List<ResolveInfo> = activity!!
             .getPackageManager()
             .queryIntentActivities(share, 0)
         if (resInfo.isNotEmpty()) {
