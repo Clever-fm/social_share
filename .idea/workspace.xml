@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d284a3b7-6ce1-4c0f-9d83-fa9a0ddbc603" name="Default Changelist" comment="merge twitter share code">
+    <list default="true" id="d284a3b7-6ce1-4c0f-9d83-fa9a0ddbc603" name="Default Changelist" comment="fix twitter ios">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/social_share/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/social_share/example/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Classes/SocialSharePlugin.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/SocialSharePlugin.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/kotlin/com/shekarmudaliyar/social_share/SocialSharePlugin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/kotlin/com/shekarmudaliyar/social_share/SocialSharePlugin.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/social_share/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/social_share/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,7 +18,7 @@
     <option name="isMigrated" value="true" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/example/ios/.symlinks/plugins/social_share" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="SYNC" />
     <option name="SET_USER_NAME_GLOBALLY" value="false" />
   </component>
@@ -183,7 +182,14 @@
       <option name="project" value="LOCAL" />
       <updated>1646917518292</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="fix twitter ios">
+      <created>1646920506502</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1646920506502</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -232,7 +238,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="merge insta PR" />
     <MESSAGE value="merge twitter share code" />
-    <option name="LAST_COMMIT_MESSAGE" value="merge twitter share code" />
+    <MESSAGE value="fix twitter ios" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix twitter ios" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/lib/social_share.dart">
