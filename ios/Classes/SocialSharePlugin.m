@@ -230,7 +230,7 @@
                         NSURL *urlSchemeMsg = [NSURL URLWithString:finalurl];
                         if (@available(iOS 10.0, *)) {
                             [[UIApplication sharedApplication] openURL:urlSchemeMsg options:@{} completionHandler:nil];
-                            result(@"sharing");
+                            result(@"sharing Clever");
                         } else {
                             result(@"this only supports iOS 10+");
                         }
