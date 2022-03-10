@@ -138,54 +138,99 @@ class SocialShare {
   }
 
   static Future<String?> shareTwitter(String captionText,
-      {List<String>? hashtags, String? url, String? trailingText}) async {
+      {List<String> hashTags = const <String>[],
+      String url = '',
+      String trailingText = '',
+      String imagePath = ''}) async {
     Map<String, dynamic> args;
-    String modifiedUrl;
-    if (Platform.isAndroid) {
-      modifiedUrl = Uri.parse(url ?? '').toString().replaceAll('#', "%23");
-    } else {
-      modifiedUrl = Uri.parse(url ?? '').toString();
+    if (hashTags.isNotEmpty) {
+      captionText = captionText + "\n" + hashTags.join(" %23").trim();
     }
-    if (hashtags != null && hashtags.isNotEmpty) {
-      String tags = "";
-      hashtags.forEach((f) {
-        tags += ("%23" + f.toString() + " ").toString();
-      });
-      args = <String, dynamic>{
-        "captionText": captionText + "\n" + tags.toString(),
-        "url": modifiedUrl,
-        "trailingText": trailingText ?? ''
-      };
+    if (Platform.isIOS) {
+      if (url.isEmpty) {
+        args = <String, dynamic>{
+          "captionText": captionText + " ",
+          "trailingText": trailingText,
+          "image": imagePath
+        };
+      } else {
+        args = <String, dynamic>{
+          "captionText": captionText + " ",
+          "url": Uri.parse(url).toString(),
+          "trailingText": trailingText,
+          "image": imagePath
+        };
+      }
     } else {
-      args = <String, dynamic>{
-        "captionText": captionText + " ",
-        "url": modifiedUrl,
-        "trailingText": trailingText ?? ''
-      };
+      final modifiedUrl = Uri.parse(url).toString().replaceAll('#', "%23");
+      if (imagePath.isNotEmpty) {
+        File file = File(imagePath);
+        final bytes = file.readAsBytesSync();
+        final tempDir = await getTemporaryDirectory();
+        final imageName = 'stickerAsset.png';
+        final imageDataPath = '${tempDir.path}/$imageName';
+        final imageAsList = bytes.buffer.asUint8List();
+        file = await File(imageDataPath).create();
+        file.writeAsBytesSync(imageAsList);
+        args = <String, dynamic>{
+          "captionText": captionText + " ",
+          "url": modifiedUrl,
+          "trailingText": trailingText,
+          "image": imageName
+        };
+      } else {
+        args = <String, dynamic>{
+          "captionText": captionText + " ",
+          "url": modifiedUrl,
+          "trailingText": trailingText,
+          "image": imagePath
+        };
+      }
     }
     final String? version = await _channel.invokeMethod('shareTwitter', args);
     return version;
   }
 
   static Future<String?> shareSms(String message,
-      {String? url, String? trailingText}) async {
+      {String url = '',
+      String trailingText = '',
+      String imagePath = ''}) async {
     Map<String, dynamic>? args;
     if (Platform.isIOS) {
-      if (url == null) {
+      if (url.isEmpty) {
         args = <String, dynamic>{
           "message": message,
+          "trailingText": trailingText,
+          "image": imagePath
         };
       } else {
         args = <String, dynamic>{
           "message": message + " ",
           "urlLink": Uri.parse(url).toString(),
-          "trailingText": trailingText
+          "trailingText": trailingText,
+          "image": imagePath
         };
       }
-    } else if (Platform.isAndroid) {
-      args = <String, dynamic>{
-        "message": message + (url ?? '') + (trailingText ?? ''),
-      };
+    } else {
+      if (imagePath.isNotEmpty) {
+        File file = File(imagePath);
+        final bytes = file.readAsBytesSync();
+        final tempDir = await getTemporaryDirectory();
+        final imageName = 'stickerAsset.png';
+        final imageDataPath = '${tempDir.path}/$imageName';
+        final imageAsList = bytes.buffer.asUint8List();
+        file = await File(imageDataPath).create();
+        file.writeAsBytesSync(imageAsList);
+        args = <String, dynamic>{
+          "message": "$message $url $trailingText".trim(),
+          "image": imageName
+        };
+      } else {
+        args = <String, dynamic>{
+          "message": "$message $url $trailingText".trim(),
+          "image": imagePath
+        };
+      }
     }
     final String? version = await _channel.invokeMethod('shareSms', args);
     return version;
