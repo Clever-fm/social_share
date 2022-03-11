@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
                       file.path,
                       backgroundTopColor: "#ffffff",
                       backgroundBottomColor: "#000000",
-                      attributionURL: "https://deep-link-url",
+                      attributionURL: "www.google.com",
                     ).then((data) {
                       print(data);
                     });

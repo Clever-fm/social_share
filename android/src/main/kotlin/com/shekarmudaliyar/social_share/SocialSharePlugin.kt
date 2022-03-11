@@ -5,15 +5,9 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.net.Uri
-import android.os.Bundle
-import android.os.Build
-import android.text.TextUtils
 import android.util.Log
 import androidx.annotation.NonNull
-import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.FileProvider
-import com.twitter.sdk.android.tweetcomposer.TweetComposer
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -21,9 +15,7 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import io.flutter.plugin.common.PluginRegistry.Registrar
 import java.io.File
-import java.net.URL
 
 class SocialSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private lateinit var channel: MethodChannel
@@ -209,26 +201,14 @@ class SocialSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         } else if (call.method == "shareTwitter") {
             //shares content on twitter
             val captionText: String? = call.argument("captionText")
-            val url: String? = call.argument("url")
-            val trailingText: String? = call.argument("trailingText")
-            val image: String? = call.argument("image")
-            val text = "$captionText $trailingText $url".trim()
 
-            val builder = TweetComposer.Builder(activity!!).text(text)
-            if (url != null && url.length > 0) {
-                builder.url(URL(url))
-            }
-            if (image != null && image.length > 0) {
-                val file =  File(activity!!.cacheDir,image)
-                val stickerImageFile = FileProvider.getUriForFile(activity!!, activity!!.applicationContext.packageName + ".com.shekarmudaliyar.social_share", file)
-                builder.image(stickerImageFile)
-            }
-            try {
-                builder.show()
-                result.success("true")
-            } catch (ex: ActivityNotFoundException) {
-                result.success("false")
-            }
+            val twitterIntent = Intent(Intent.ACTION_SEND)
+            twitterIntent.type = "text/plain"
+            twitterIntent.setPackage("com.twitter.android")
+            twitterIntent.putExtra(Intent.EXTRA_TEXT, captionText)
+
+            activity!!.startActivity(twitterIntent)
+
         } else if (call.method == "shareTelegram") {
             //shares content on Telegram
             val content: String? = call.argument("content")
