@@ -1,9 +1,9 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'dart:async';
 import 'package:screenshot/screenshot.dart';
 import 'package:social_share/social_share.dart';
 
@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
                       file.path,
                       backgroundTopColor: "#ffffff",
                       backgroundBottomColor: "#000000",
-                      attributionURL: "https://deep-link-url",
+                      attributionURL: "www.google.com",
                     ).then((data) {
                       print(data);
                     });
@@ -73,9 +73,27 @@ class _MyAppState extends State<MyApp> {
                 ),
                 RaisedButton(
                   onPressed: () async {
+                    final file = await ImagePicker().pickImage(
+                      source: ImageSource.gallery,
+                    );
+                    SocialShare.shareInstagramFeed(
+                      file.path,
+                      // backgroundTopColor: "#ffffff",
+                      // backgroundBottomColor: "#000000",
+                      // attributionURL: "https://deep-link-url",
+                    ).then((data) {
+                      print(data);
+                    });
+                  },
+                  child: Text("Share On Instagram feed"),
+                ),
+                RaisedButton(
+                  onPressed: () async {
                     await screenshotController.capture().then((image) async {
-                      final directory = await getApplicationDocumentsDirectory();
-                      final file = await File('${directory.path}/temp.png').create();
+                      final directory =
+                          await getApplicationDocumentsDirectory();
+                      final file =
+                          await File('${directory.path}/temp.png').create();
                       await file.writeAsBytes(image);
 
                       SocialShare.shareInstagramStory(
@@ -94,28 +112,30 @@ class _MyAppState extends State<MyApp> {
                 RaisedButton(
                   onPressed: () async {
                     await screenshotController.capture().then((image) async {
-                      final directory = await getApplicationDocumentsDirectory();
-                      final file = await File('${directory.path}/temp.png').create();
+                      final directory =
+                          await getApplicationDocumentsDirectory();
+                      final file =
+                          await File('${directory.path}/temp.png').create();
                       await file.writeAsBytes(image);
                       //facebook appId is mandatory for andorid or else share won't work
                       Platform.isAndroid
                           ? SocialShare.shareFacebookStory(
-                        file.path,
-                        "#ffffff",
-                        "#000000",
-                        "https://google.com",
-                        appId: "xxxxxxxxxxxxx",
-                      ).then((data) {
-                        print(data);
-                      })
+                              file.path,
+                              "#ffffff",
+                              "#000000",
+                              "https://google.com",
+                              appId: "xxxxxxxxxxxxx",
+                            ).then((data) {
+                              print(data);
+                            })
                           : SocialShare.shareFacebookStory(
-                        file.path,
-                        "#ffffff",
-                        "#000000",
-                        "https://google.com",
-                      ).then((data) {
-                        print(data);
-                      });
+                              file.path,
+                              "#ffffff",
+                              "#000000",
+                              "https://google.com",
+                            ).then((data) {
+                              print(data);
+                            });
                     });
                   },
                   child: Text("Share On Facebook Story"),
@@ -133,10 +153,10 @@ class _MyAppState extends State<MyApp> {
                 RaisedButton(
                   onPressed: () async {
                     SocialShare.shareTwitter(
-                      "This is Social Share twitter example",
-                      hashtags: ["hello", "world", "foo", "bar"],
-                      url: "https://google.com/#/hello",
-                      trailingText: "\nhello",
+                      "Twitter share",
+                      // hashTags: ["hello", "world", "foo", "bar"],
+                      // url: "https://google.com/#/hello",
+                      // trailingText: "\nhello",
                     ).then((data) {
                       print(data);
                     });

@@ -1,4 +1,5 @@
 name: social_share_example
+version: 2.6.1+1
 description: Demonstrates how to use the social_share plugin.
 publish_to: "none"
 
