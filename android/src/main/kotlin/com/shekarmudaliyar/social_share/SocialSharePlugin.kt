@@ -73,14 +73,16 @@ class SocialSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             val backfile = File(activeContext!!.cacheDir, backgroundImage)
             val backgroundImageFile = FileProvider.getUriForFile(activeContext!!, activeContext!!.applicationContext.packageName + ".com.shekarmudaliyar.social_share", backfile)
 
-
             val share = Intent(Intent.ACTION_SEND)
             share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             share.type = "image/*"
             share.putExtra(Intent.EXTRA_STREAM, backgroundImageFile)
+            share.`package` = "com.instagram.android"
             val chooserIntent: Intent = Intent.createChooser(share, "Share to")
             chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
+            chooserIntent.flags = (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            chooserIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             // Instantiate activity and verify it will resolve implicit intent
             activity!!.grantUriPermission("com.instagram.android", backgroundImageFile, Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
@@ -89,7 +91,7 @@ class SocialSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 //                startActivity(activeContext!!, chooserIntent, Bundle())
                 result.success("success")
             } catch (e: Exception) {
-                result.success("error")
+                result.success("error : $e")
             }
         } else if (call.method == "shareFacebookStory") {
             //share on facebook story
