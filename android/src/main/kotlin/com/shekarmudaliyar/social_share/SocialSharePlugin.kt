@@ -7,6 +7,7 @@ import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.util.Log
 import androidx.annotation.NonNull
+import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -115,11 +116,12 @@ class SocialSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             Log.d("", activity!!.toString())
             // Instantiate activity and verify it will resolve implicit intent
             activity!!.grantUriPermission("com.facebook.katana", stickerImageFile, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            if (activity!!.packageManager.resolveActivity(intent, 0) != null) {
+            try {
                 activeContext!!.startActivity(intent)
+//                startActivity(activeContext!!, chooserIntent, Bundle())
                 result.success("success")
-            } else {
-                result.success("error")
+            } catch (e: Exception) {
+                result.success("error : $e")
             }
         } else if (call.method == "shareOptions") {
             //native share options
